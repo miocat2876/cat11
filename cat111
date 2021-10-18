@@ -1,4 +1,59 @@
-const tag =  document.getElementsByClassName("image")[0];
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div class="image">
+
+  </div>
+<p>&nbsp;</p>
+<button id="btn">색상 추출</button>
+<div style="width:100px; height:100px; border-radius:50%;" id='c1'></div>
+ 
+<p>&nbsp;</p>
+
+
+
+
+
+  <!-- <div class="main">
+    <span class="cat"> </span>
+   </div>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="index.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.ripples/0.5.3/jquery.ripples.min.js"></script>
+  
+   <script>
+
+     new ColorT
+
+
+ 
+   </script> -->
+
+   
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.3.0/color-thief.umd.js"></script>
+   <script>
+      // $("#btn").on("click", pick);
+      // function pick() {
+      //   const colorThief = new ColorThief();
+
+      //   console.dir($('#sampleImg')[0]);
+      //   const color = colorThief.getColor($('#sampleImg')[0]);
+      //   document.querySelector('#c1').style.backgroundColor='rgb('+color+')';
+      //   var colors = colorThief.getPalette($('#sampleImg')[0], 10);
+      //   for(var i=0; i<colors.length; i++) {
+      //     $("#c1").after($('<div style="display:inline-block; width:100px; height:100px; border-radius:50%;">').css("background-color", "rgb("+colors[i]+")"));
+      //   }
+      // }
+
+      const tag =  document.getElementsByClassName("image")[0];
 
       const img = new Image();
 
@@ -15,7 +70,68 @@ const tag =  document.getElementsByClassName("image")[0];
       var context = canvas.getContext('2d')
       context.drawImage(img, 0, 0)
       var pixels = context.getImageData(0, 0, img.width, img.height)
-      console.dir(pixels)
+
+      console.log(pixels.data.length);
+      let rgbArray = []
+      let hexArray = []
+      for (let index = 0; index < pixels.data.length; index+=4) {
+
+        let array = [];
+        let hArray = [];
+        array[0] = pixels.data[index];
+        array[1] = pixels.data[index + 1];
+        array[2] = pixels.data[index + 2];
+        array[3] = pixels.data[index + 3];
+        rgbArray.push(array);
+        hexArray.push(rgba2hex(`rgba(${pixels.data[index]},${pixels.data[index + 1]},${pixels.data[index + 2]},${pixels.data[index + 3]})`))
+
+
+      }
+
+      console.log(rgbArray);
+
+
+      console.log(hexArray);
+
+
+
+      console.dir(new Uint8Array(pixels.data))
+
+
     }
       
     img.src = 'cat.png';
+
+
+    function rgba2hex(orig) {
+      var a, isPercent,
+        rgb = orig.replace(/\s/g, '').match(/^rgba?\((\d+),(\d+),(\d+),?([^,\s)]+)?/i),
+        alpha = (rgb && rgb[4] || "").trim(),
+        hex = rgb ?
+        (rgb[1] | 1 << 8).toString(16).slice(1) +
+        (rgb[2] | 1 << 8).toString(16).slice(1) +
+        (rgb[3] | 1 << 8).toString(16).slice(1) : orig;
+
+      if (alpha !== "") {
+        a = alpha;
+      } else {
+        a = 01;
+      }
+      // multiply before convert to HEX
+      a = ((a * 255) | 1 << 8).toString(16).slice(1)
+      hex = hex + a;
+
+      return hex;
+    }
+
+
+
+
+   </script>
+
+
+
+
+
+</body>
+</html>
