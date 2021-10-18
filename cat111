@@ -1,0 +1,21 @@
+const tag =  document.getElementsByClassName("image")[0];
+
+      const img = new Image();
+
+      
+
+      tag.appendChild(img);
+
+      console.dir(tag.data);
+      img.crossOrigin = "Anonymous"
+    img.onload = function() {
+      var canvas = document.createElement('canvas')
+      canvas.width = img.width
+      canvas.height = img.height
+      var context = canvas.getContext('2d')
+      context.drawImage(img, 0, 0)
+      var pixels = context.getImageData(0, 0, img.width, img.height)
+      console.dir(pixels)
+    }
+      
+    img.src = 'cat.png';
